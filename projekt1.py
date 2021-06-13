@@ -26,7 +26,7 @@ class MojTest(unittest.TestCase):
         # print("Przygotowanie testu")
         # Tutaj otowrzymy przeglądarkę
         self.driver = webdriver.Chrome()
-        # Na stronie wizzaira
+        # Na stronie 
         self.driver.get("https://www.yves-rocher.pl/#/")
         # Maksymalizacja okna
         self.driver.maximize_window()
@@ -43,66 +43,63 @@ class MojTest(unittest.TestCase):
     # Właściwe testy (metody zaczynajace się od słowa test)
     def testInvalidEmail(self):
         driver = self.driver
-        # KROK 1: KLIKNIJ ZALOGUJ
-        # Metody find_element_ zwracają obiekt klasy WebElement
-        zaloguj_btn = driver.find_element_by_xpath('/html/body/div[1]/header/div/div[1]/div[2]/div[3]/a/span')
+
+        # KROK 1. Akceptacja cookies
+        cookies_btn = driver.find_element_by_xpath('//*[@id="onetrust-accept-btn-handler"]')
+        cookies_btn.click()
+
+        # KROK 2. Kliknij "Zaloguj"
+        zaloguj_btn = driver.find_element_by_xpath('/html/body/div[1]/header/div/div[2]/div[2]/div[3]/a')
         zaloguj_btn.click()
 
-        # KROK 2 Kliknij Rejestracja
+        # KROK 3. Kliknij "Rejestracja"
         rejestracja_btn = driver.find_element_by_css_selector('a[data-registration-url="/customer/register"]')
         rejestracja_btn.click()
 
         
-        # KROK 3. Wpisz imię
+        # KROK 4. Wpisz imię
         imie_input = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div[1]/div[3]/span/div[1]/div[1]/span/input')
         imie_input.send_keys(imie)
-        # KROK 4. Wpisz nazwisko
+        # KROK 5. Wpisz nazwisko
         nazwisko_input = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div[1]/div[3]/span/div[1]/div[2]/span/input')
         nazwisko_input.send_keys(nazwisko)
-        # KROK 5. Wpisz niepoprawny email
+        # KROK 6. Wpisz niepoprawny email
         email_input = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div[1]/div[3]/span/div[1]/div[3]/span/input')
         email_input.send_keys(niepoprawny_email) 
         # KROK 7. Wpisz hasło
         password_input = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div[1]/div[3]/span/div[1]/div[4]/span/input')
         password_input.send_keys(haslo)
-        # KROK 6. Wpisz numer telefonu
+        # KROK 8. Wpisz numer telefonu
         phone_input = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div[1]/div[3]/span/div[1]/div[5]/span/input')
         phone_input.send_keys(nrtelefonu)
-        # KROK 7. Kliknij RAkceptuj cookies
-        cookies_btn = driver.find_element_by_xpath('//*[@id="onetrust-accept-btn-handler"]')
-        cookies_btn.click()
 
-        # KROK 8. Przewijanie strony
-     
-        # zgoda2_btn.location_once_scrolled_into_view
-        
+        # KROK 9. Przewijanie strony         
         element_zoom = driver.find_element_by_xpath('//*[@id="page-register-form"]/div[1]/div[3]/div[3]/div/button')
         # przesun sie pod element ktory jest na niewidocznej czesci strony 
         action = ActionChains(driver)
         action.move_to_element(element_zoom).click().perform() 
 
-        # KROK 8. Wybierz płeć
+        # KROK 10. Wybierz płeć
         if plec == "kobieta":
-            # Kliknij w pani
-            female_label = driver.find_element_by_css_selector('input[id="female"]')                 
+            # Kliknij w kobieta
+            female_label = driver.find_element_by_xpath('//*[@id="female"]')                 
             #nazwisko_input.click()
             female_label.click()
         else:
-            # Kliknij mezczyzna
-            male_label = driver.find_element_by_css_selector('input[id="male"]')
+            # Kliknij w mezczyzna
+            male_label = driver.find_element_by_xpath('//*[@id="male"]')
             #imie_input.click()
             male_label.click()
-        # KROK 9. Kliknij zgode 1
-        zgoda1_btn = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div[1]/div[3]/span/div[3]/div[5]/span/div/label/span[3]')
+        # KROK 11. Kliknij zgode 1
+        zgoda1_btn = driver.find_element_by_xpath('//*[@id="page-register-form"]/div[1]/div[3]/span/div[3]/div[5]/span/div/label/span[3]')
         zgoda1_btn.click()
-        # KROK 10. Kliknij zgode 2
-        zgoda2_btn = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div[1]/div[3]/span/div[3]/div[6]/span/div/label/span[3]')
+        # KROK 12. Kliknij zgode 2
+        zgoda2_btn = driver.find_element_by_xpath('//*[@id="page-register-form"]/div[1]/div[3]/span/div[3]/div[6]/span/div/label/span[3]')
         zgoda2_btn.click()
-        # KROK 11. Kliknij zaloz konto
-        zaloz_konto_btn = driver.find_element_by_xpath('/html/body/div[1]/div[2]/div/div[1]/div[3]/div[3]/div/button')
+        # KROK 13. Kliknij zaloz konto
+        zaloz_konto_btn = driver.find_element_by_xpath('//*[@id="page-register-form"]/div[1]/div[3]/div[3]/div/button')
         zaloz_konto_btn.click()
 
-        ### UWAGA! TUTAJ BĘDZIE TEST !!! ###
         # SPRAWDZENIE OCZEKIWANEGO REZULTATU
         # Wyszukujemy wszystkie możliwe błędy
         error_notices = driver.find_elements_by_xpath('/html/body/div[1]/div[2]/div/div[1]/div[3]/span/div[1]/div[3]/span/span')
@@ -118,20 +115,7 @@ class MojTest(unittest.TestCase):
         # (Sprawdzam, czy widoczny jest tylko błąd "Nieprawidłowy adres e-mail")
 
         print("na stronie widnieją następujące błędy: ", visible_error_notices)
-        ## PRAWDZIWY TEST - SPRAWDZENIE REZULTATU ##
-        # ===================================================================================
-        # "Czysty Python"
-        # assert visible_error_notices == ["Proszę podać prawidłowy adres e-mail."], "Nie zgadzają się wyświetlane błędy"
-        # Asercja z wykorzystaniem metody zawartej w klasie TestCase
-        # self.assertListEqual(visible_error_notices, ["Proszę podać prawidłowy adres e-mail."], msg="Nie zgadzają się wyświetlane błędy")
-        # ===================================================================================
-
-
-
-
-
-        # Poczekaj ze 3 sekundy, żebym zdążył zobaczyć co się stało
-        sleep(3)
+        sleep(2)
 
 
 
